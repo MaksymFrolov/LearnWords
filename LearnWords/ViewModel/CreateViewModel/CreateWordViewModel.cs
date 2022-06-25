@@ -65,7 +65,7 @@ namespace LearnWords.ViewModel.CreateViewModel
                     ThirdForm = thirdForm
                 };
 
-                await Task.Run(() => Data<Word>.CreateData(word));
+                await Task.Run(() => DataWord.CreateData(word));
             }, canExecute);
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
