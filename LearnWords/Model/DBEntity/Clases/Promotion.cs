@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LearnWords.Model.DBEntity.Clases
+﻿namespace LearnWords.Model.DBEntity.Clases
 {
     internal abstract class Promotion
     {
-        public int? CompletedENUA { get; set; }
+        public int CompletedENUA { get; set; } = 0;
 
-        public int? FailedENUA { get; set; }
+        public int FailedENUA { get; set; } = 0;
 
-        public int? CompletedUAEN { get; set; }
+        public int CompletedUAEN { get; set; } = 0;
 
-        public int? FailedUAEN { get; set; }
+        public int FailedUAEN { get; set; } = 0;
 
-        public int SuccesENUA()=> (CompletedENUA - FailedENUA) ?? default;
-        public int SuccesUAEN() => (CompletedUAEN - FailedUAEN) ?? default;
+        public int SuccesENUA() => CompletedENUA - FailedENUA;
+        public int SuccesUAEN() => CompletedUAEN - FailedUAEN;
     }
 }

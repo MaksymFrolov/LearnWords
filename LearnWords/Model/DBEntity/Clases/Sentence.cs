@@ -8,8 +8,8 @@ namespace LearnWords.Model.DBEntity.Clases
     {
         public int Id { get; set; }
 
-        public string? ENSentence { get; set; }
+        public string ENSentence { get; set; }
 
-        public string? UASentence { get; set; }
+        public string UASentence { get; set; }
     }
 }

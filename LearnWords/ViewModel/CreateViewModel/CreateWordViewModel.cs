@@ -1,5 +1,4 @@
-﻿
-using LearnWords.Model;
+﻿using LearnWords.Model.CRUD;
 using LearnWords.Model.DBEntity.Clases;
 using ReactiveUI;
 using Splat;
@@ -18,7 +17,7 @@ namespace LearnWords.ViewModel.CreateViewModel
     {
         public string UrlPathSegment => "CreateWord";
 
-        public ReactiveCommand<Unit, Unit> Start { get; }
+        public ReactiveCommand<Unit, IRoutableViewModel> Start { get; }
 
         string enWord = "", uaWord = "", secondForm = "", thirdForm="";
 
@@ -45,7 +44,7 @@ namespace LearnWords.ViewModel.CreateViewModel
 
         public IScreen HostScreen { get; }
 
-        public CreateWordViewModel(IScreen screen = null)
+        public CreateWordViewModel(RoutingState Router, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
@@ -66,6 +65,8 @@ namespace LearnWords.ViewModel.CreateViewModel
                 };
 
                 await Task.Run(() => DataWord.CreateData(word));
+
+                return await Router.NavigateBack.Execute();
             }, canExecute);
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));

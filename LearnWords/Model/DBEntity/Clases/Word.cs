@@ -8,12 +8,12 @@ namespace LearnWords.Model.DBEntity.Clases
     {
         public int Id { get; set; }
 
-        public string? ENWord { get; set; }
+        public string ENWord { get; set; }
 
         public string? SecondForm { get; set; }
 
         public string? ThirdForm { get; set; }
 
-        public string? UAWord { get; set; }
+        public string UAWord { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace LearnWords.Model.DBEntity.Clases
     {
         public int Id { get; set; }
 
-        public string? ENPastSimple { get; set; }
+        public string ENPastSimple { get; set; }
 
         public string? ENPastContinuous { get; set; }
 
@@ -16,7 +16,7 @@ namespace LearnWords.Model.DBEntity.Clases
 
         public string? ENPastPerfectContinuous { get; set; }
 
-        public string? UAPastSimple { get; set; }
+        public string UAPastSimple { get; set; }
 
         public string? UAPastContinuous { get; set; }
 

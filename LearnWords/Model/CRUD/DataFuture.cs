@@ -31,12 +31,8 @@ namespace LearnWords.Model.CRUD
 
         public static List<FutureSentence> ReadTenData(bool enua)
         {
-            using ContextApp context = new();
-
             FutureSentence[] data = ReadData().ToArray();
-            List<FutureSentence> tenData = new();
             Random rnd = new();
-            double average;
 
             for (int i = data.Length - 1; i >= 1; i--)
             {
@@ -49,58 +45,68 @@ namespace LearnWords.Model.CRUD
 
             if (enua)
             {
-                average = queue.Select(t => t.SuccesENUA()).Average();
+                double average = queue.Select(t => t.SuccesENUA()).Average();
+
+                List<FutureSentence> tenData = new();
 
                 while (tenData.Count < 10)
                 {
-                    if (queue.First().SuccesENUA() < average / 2)
+                    int num = queue.First().SuccesENUA(),
+                        randomNum = rnd.Next(0, 10);
+
+                    if (num < average / 2)
                         tenData.Add(queue.Dequeue());
-                    else if (queue.First().SuccesENUA() < average && rnd.Next(0, 4) < 2)
+                    else if (num < average && randomNum < 5)
                         tenData.Add(queue.Dequeue());
-                    else if (rnd.Next(0, 10) < 3)
+                    else if (randomNum < 3)
                         tenData.Add(queue.Dequeue());
                 }
+
                 return tenData;
             }
             else
             {
-                average = queue.Select(t => t.SuccesUAEN()).Average();
+                double average = queue.Select(t => t.SuccesUAEN()).Average();
+
+                List<FutureSentence> tenData = new();
 
                 while (tenData.Count < 10)
                 {
-                    if (queue.First().SuccesUAEN() < average / 2)
+                    int num = queue.First().SuccesUAEN(),
+                        randomNum = rnd.Next(0, 10);
+
+                    if (num < average / 2)
                         tenData.Add(queue.Dequeue());
-                    else if (queue.First().SuccesUAEN() < average && rnd.Next(0, 4) < 2)
+                    else if (num < average && randomNum < 5)
                         tenData.Add(queue.Dequeue());
-                    else if (rnd.Next(0, 10) < 3)
+                    else if (randomNum < 3)
                         tenData.Add(queue.Dequeue());
                 }
+
                 return tenData;
             }
         }
 
-        public static void UpdateData(List<FutureSentence> data)
+        public static void UpdateData(FutureSentence data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
 
             using ContextApp context = new();
 
-            foreach (FutureSentence d in data)
-                context.FutureSentences.Update(d);
+            context.FutureSentences.Update(data);
 
             context.SaveChanges();
         }
 
-        public static void DeleteData(List<FutureSentence> data)
+        public static void DeleteData(FutureSentence data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
 
             using ContextApp context = new();
 
-            foreach (FutureSentence d in data)
-                context.FutureSentences.Remove(d);
+            context.FutureSentences.Remove(data);
 
             context.SaveChanges();
         }

@@ -13,6 +13,7 @@
     <Folder Include="View\RedactionView\" />
     <Folder Include="View\UA-ENView\" />
     <Folder Include="View\UpdateView\" />
+    <Folder Include="View\ResultView\" />
   </ItemGroup>
 
   <ItemGroup>
