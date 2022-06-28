@@ -65,18 +65,18 @@ namespace LearnWords.ViewModel.RedactionViewModel
 
             Update = ReactiveCommand.CreateFromTask(async () =>
             {
-                List<Word> list = new();
+                Queue<Word> queue = new();
 
                 await Task.Run(() =>
                 {
                     while (CanClear)
                     {
-                        list.Add(SelectedRow);
+                        queue.Enqueue(SelectedRow);
                         Source.Remove(SelectedRow);
                     }
                 });
 
-                return await Router.Navigate.Execute(new UpdateWordViewModel(Router, list));
+                return await Router.Navigate.Execute(new UpdateWordViewModel(Router, queue));
             }, canClear);
 
             Update.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));

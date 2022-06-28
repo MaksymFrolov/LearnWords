@@ -29,7 +29,7 @@ namespace LearnWords.Model.CRUD
             return data;
         }
 
-        public static List<Word> ReadTenData(bool enua)
+        public static Queue<Word> ReadTenData(bool enua)
         {
             using ContextApp context = new();
 
@@ -49,7 +49,7 @@ namespace LearnWords.Model.CRUD
             {
                 double average = queue.Select(t => t.SuccesENUA()).Average();
 
-                List<Word> tenData = new();
+                Queue<Word> tenData = new();
 
                 while (tenData.Count < 10)
                 {
@@ -57,11 +57,11 @@ namespace LearnWords.Model.CRUD
                         randomNum=rnd.Next(0,10);
 
                     if (num < average / 2)
-                        tenData.Add(queue.Dequeue());
+                        tenData.Enqueue(queue.Dequeue());
                     else if (num < average && randomNum < 5)
-                        tenData.Add(queue.Dequeue());
+                        tenData.Enqueue(queue.Dequeue());
                     else if (randomNum < 3)
-                        tenData.Add(queue.Dequeue());
+                        tenData.Enqueue(queue.Dequeue());
                 }
 
                 return tenData;
@@ -70,7 +70,7 @@ namespace LearnWords.Model.CRUD
             {
                 double average = queue.Select(t => t.SuccesUAEN()).Average();
 
-                List<Word> tenData = new();
+                Queue<Word> tenData = new();
 
                 while (tenData.Count < 10)
                 {
@@ -78,11 +78,11 @@ namespace LearnWords.Model.CRUD
                         randomNum = rnd.Next(0, 10);
 
                     if (num < average / 2)
-                        tenData.Add(queue.Dequeue());
+                        tenData.Enqueue(queue.Dequeue());
                     else if (num < average && randomNum < 5)
-                        tenData.Add(queue.Dequeue());
+                        tenData.Enqueue(queue.Dequeue());
                     else if (randomNum < 3)
-                        tenData.Add(queue.Dequeue());
+                        tenData.Enqueue(queue.Dequeue());
                 }
 
                 return tenData;

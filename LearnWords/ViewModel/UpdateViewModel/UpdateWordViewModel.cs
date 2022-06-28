@@ -44,11 +44,11 @@ namespace LearnWords.ViewModel.UpdateViewModel
 
         public IScreen HostScreen { get; }
 
-        public UpdateWordViewModel(RoutingState Router, List<Word> list, IScreen screen = null)
+        public UpdateWordViewModel(RoutingState Router, Queue<Word> queue, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
-            Word word = list.First();
+            Word word = queue.Dequeue();
 
             ENWord = word.ENWord;
             UAWord = word.UAWord;
@@ -70,10 +70,8 @@ namespace LearnWords.ViewModel.UpdateViewModel
 
                 await Task.Run(() => DataWord.UpdateData(word));
 
-                list.Remove(list.First());
-
-                if (list.Count is not 0)
-                    return await Router.Navigate.Execute(new UpdateWordViewModel(Router, list));
+                if (queue.Count is not 0)
+                    return await Router.Navigate.Execute(new UpdateWordViewModel(Router, queue));
                 else
                     return await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router));
             }, canExecute);

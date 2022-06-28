@@ -10,6 +10,7 @@ using ReactiveUI;
 using Splat;
 using System.Collections.Generic;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace LearnWords.ViewModel
@@ -46,15 +47,19 @@ namespace LearnWords.ViewModel
             {
                 return Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router));
             });
+
             ENUAWord = ReactiveCommand.CreateFromTask(async () =>
             {
-                List<Word> list;
+                Queue<Word> queue=new();
+
                 await Task.Run(() =>
                 {
-                    list = DataWord.ReadTenData(true);
+                    queue = DataWord.ReadTenData(true);
                 });
-                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router,list));
+
+                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, queue));
             });
+
             UAENWord = ReactiveCommand.CreateFromObservable(() =>
             {
                 return Router.NavigateAndReset.Execute(new UA_ENWordViewModel());
