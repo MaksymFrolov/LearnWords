@@ -63,7 +63,7 @@ namespace LearnWords.ViewModel
 
                 await Task.Run(() => queue = DataWord.ReadTenData(false));
 
-                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel());
+                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, queue, new List<(Word, bool)>()));
             });
         }
     }
