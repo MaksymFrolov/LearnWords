@@ -1,4 +1,5 @@
 ﻿using LearnWords.Model.DBEntity.Clases;
+using LearnWords.ViewModel.ResultViewModel;
 using ReactiveUI;
 using Splat;
 using System;
@@ -17,7 +18,7 @@ namespace LearnWords.ViewModel.EN_UAViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enWord, uaWord, userUAWord, secondForm = "", thirdForm = "";
-        bool styleCompleted, completed = false;
+        bool styleCompleted, completed = false, textEnabled=true, uaWordEnabled = false;
 
         public string ENWord
         {
@@ -54,6 +55,16 @@ namespace LearnWords.ViewModel.EN_UAViewModel
             get => completed;
             set => this.RaiseAndSetIfChanged(ref completed, value);
         }
+        public bool TextEnabled
+        {
+            get => textEnabled;
+            set => this.RaiseAndSetIfChanged(ref textEnabled, value);
+        }
+        public bool UAWordEnabled
+        {
+            get => uaWordEnabled;
+            set => this.RaiseAndSetIfChanged(ref uaWordEnabled, value);
+        }
 
         readonly ObservableAsPropertyHelper<bool> visibleSecond;
         public bool VisibleSecond => visibleSecond.Value;
@@ -62,7 +73,7 @@ namespace LearnWords.ViewModel.EN_UAViewModel
 
         public IScreen HostScreen { get; }
 
-        public EN_UAWordViewModel(RoutingState Router, Queue<Word> queue, IScreen screen = null)
+        public EN_UAWordViewModel(RoutingState Router, Queue<Word> queue, List<(Word,bool)> comletedList,IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
@@ -89,15 +100,20 @@ namespace LearnWords.ViewModel.EN_UAViewModel
 
             Start = ReactiveCommand.Create(() =>
             {
-                StyleCompleted = UserUAWord == uaWord;
+                StyleCompleted = UserUAWord == UAWord;
+                UAWordEnabled = true;
+                TextEnabled = false;
                 Completed = true;
+                comletedList.Add((word, StyleCompleted));
             }, Observable.Concat(canExecute, canStart));
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
 
-            Next = ReactiveCommand.CreateFromTask(async () =>
+            Next = ReactiveCommand.CreateFromObservable(() =>
             {
-                return await Router.Navigate.Execute(new EN_UAWordViewModel(Router, queue));
+                if(comletedList.Count != 10)
+                    return Router.Navigate.Execute(new EN_UAWordViewModel(Router, queue, comletedList));
+                return Router.Navigate.Execute(new ResultWordViewModel(Router, comletedList));
             }, canNext);
         }
     }

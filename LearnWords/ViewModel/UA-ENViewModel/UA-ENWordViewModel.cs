@@ -1,13 +1,11 @@
-﻿using LearnWords.Model.CRUD;
-using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.DBEntity.Clases;
+using LearnWords.ViewModel.ResultViewModel;
 using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
 using System.Windows;
 
 namespace LearnWords.ViewModel.UA_ENViewModel
@@ -17,8 +15,10 @@ namespace LearnWords.ViewModel.UA_ENViewModel
         public string UrlPathSegment => "UA-EN";
 
         public ReactiveCommand<Unit, Unit> Start { get; }
+        public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
-        string enWord = "", uaWord = "", secondForm = "", thirdForm = "";
+        string enWord, uaWord, userENWord, userThirdForm, userSecondForm, secondForm, thirdForm;
+        bool styleCompleted, completed = false, textEnabled = true, uaWordEnabled = false;
 
         public string ENWord
         {
@@ -30,6 +30,21 @@ namespace LearnWords.ViewModel.UA_ENViewModel
             get => uaWord;
             set => this.RaiseAndSetIfChanged(ref uaWord, value);
         }
+        public string UserENWord
+        {
+            get => userENWord;
+            set => this.RaiseAndSetIfChanged(ref userENWord, value);
+        }
+        public string UserSecondForm
+        {
+            get => userSecondForm;
+            set => this.RaiseAndSetIfChanged(ref userSecondForm, value);
+        }
+        public string UserThirdForm
+        {
+            get => userThirdForm;
+            set => this.RaiseAndSetIfChanged(ref userThirdForm, value);
+        }
         public string SecondForm
         {
             get => secondForm;
@@ -40,33 +55,66 @@ namespace LearnWords.ViewModel.UA_ENViewModel
             get => thirdForm;
             set => this.RaiseAndSetIfChanged(ref thirdForm, value);
         }
+        public bool StyleCompleted
+        {
+            get => styleCompleted;
+            set => this.RaiseAndSetIfChanged(ref styleCompleted, value);
+        }
+        public bool Completed
+        {
+            get => completed;
+            set => this.RaiseAndSetIfChanged(ref completed, value);
+        }
+        public bool TextEnabled
+        {
+            get => textEnabled;
+            set => this.RaiseAndSetIfChanged(ref textEnabled, value);
+        }
+        public bool UAWordEnabled
+        {
+            get => uaWordEnabled;
+            set => this.RaiseAndSetIfChanged(ref uaWordEnabled, value);
+        }
 
         public IScreen HostScreen { get; }
 
-        public UA_ENWordViewModel(IScreen screen = null)
+        public UA_ENWordViewModel(RoutingState Router, Queue<Word> queue, List<(Word, bool)> comletedList, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
+            Word word = queue.Dequeue();
+
+            ENWord = word.ENWord;
+            UAWord = word.UAWord;
+            SecondForm = word.SecondForm;
+            ThirdForm = word.ThirdForm;
+
             IObservable<bool> canExecute =
-                this.WhenAnyValue(x => x.ENWord, x => x.UAWord,
-                (enWord, uaWord) =>
-                   !string.IsNullOrEmpty(enWord) &&
-                   !string.IsNullOrEmpty(uaWord));
+                this.WhenAnyValue(x => x.UserENWord, x => x.UserSecondForm, x => x.UserThirdForm,
+                (userENWord, userSecondForm, userThirdForm) =>
+                   !string.IsNullOrEmpty(userENWord) &&
+                   !string.IsNullOrEmpty(userSecondForm) &&
+                   !string.IsNullOrEmpty(userThirdForm));
+            IObservable<bool> canNext = this.WhenAnyValue(x => x.Completed);
+            IObservable<bool> canStart = this.WhenAnyValue(x => !x.Completed);
 
-            Start = ReactiveCommand.CreateFromTask(async () =>
+            Start = ReactiveCommand.Create(() =>
             {
-                Word word = new()
-                {
-                    ENWord = enWord,
-                    UAWord = uaWord,
-                    SecondForm = secondForm,
-                    ThirdForm = thirdForm
-                };
-
-                await Task.Run(() => DataWord.CreateData(word));
-            }, canExecute);
+                StyleCompleted = userENWord == ENWord && UserSecondForm == SecondForm && UserThirdForm == ThirdForm;
+                UAWordEnabled = true;
+                TextEnabled = false;
+                Completed = true;
+                comletedList.Add((word, StyleCompleted));
+            }, Observable.Concat(canExecute, canStart));
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
+
+            Next = ReactiveCommand.CreateFromObservable(() =>
+            {
+                if (comletedList.Count != 10)
+                    return Router.Navigate.Execute(new UA_ENWordViewModel(Router, queue, comletedList));
+                return Router.Navigate.Execute(new ResultWordViewModel(Router, comletedList));
+            }, canNext);
         }
     }
 }

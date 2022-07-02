@@ -50,19 +50,20 @@ namespace LearnWords.ViewModel
 
             ENUAWord = ReactiveCommand.CreateFromTask(async () =>
             {
-                Queue<Word> queue=new();
+                Queue<Word> queue = new();
 
-                await Task.Run(() =>
-                {
-                    queue = DataWord.ReadTenData(true);
-                });
+                await Task.Run(() => queue = DataWord.ReadTenData(true));
 
-                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, queue));
+                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, queue, new List<(Word, bool)>()));
             });
 
-            UAENWord = ReactiveCommand.CreateFromObservable(() =>
+            UAENWord = ReactiveCommand.CreateFromTask(async () =>
             {
-                return Router.NavigateAndReset.Execute(new UA_ENWordViewModel());
+                Queue<Word> queue = new();
+
+                await Task.Run(() => queue = DataWord.ReadTenData(false));
+
+                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel());
             });
         }
     }
