@@ -1,4 +1,5 @@
-﻿using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.CRUD;
+using LearnWords.Model.DBEntity.Clases;
 using LearnWords.ViewModel.ResultViewModel;
 using ReactiveUI;
 using Splat;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace LearnWords.ViewModel.UA_ENViewModel
@@ -104,6 +106,14 @@ namespace LearnWords.ViewModel.UA_ENViewModel
                 UAWordEnabled = true;
                 TextEnabled = false;
                 Completed = true;
+
+                if (StyleCompleted)
+                    word.CompletedUAEN++;
+                else
+                    word.FailedUAEN++;
+
+                Task.Run(() => DataWord.UpdateData(word));
+
                 comletedList.Add((word, StyleCompleted));
             }, Observable.Concat(canExecute, canStart));
 
@@ -115,6 +125,8 @@ namespace LearnWords.ViewModel.UA_ENViewModel
                     return Router.Navigate.Execute(new UA_ENWordViewModel(Router, queue, comletedList));
                 return Router.Navigate.Execute(new ResultWordViewModel(Router, comletedList));
             }, canNext);
+
+            Next.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
         }
     }
 }

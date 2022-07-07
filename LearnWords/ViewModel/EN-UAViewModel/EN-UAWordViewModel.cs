@@ -1,4 +1,5 @@
-﻿using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.CRUD;
+using LearnWords.Model.DBEntity.Clases;
 using LearnWords.ViewModel.ResultViewModel;
 using ReactiveUI;
 using Splat;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace LearnWords.ViewModel.EN_UAViewModel
@@ -18,7 +20,7 @@ namespace LearnWords.ViewModel.EN_UAViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enWord, uaWord, userUAWord, secondForm = "", thirdForm = "";
-        bool styleCompleted, completed = false, textEnabled=true, uaWordEnabled = false;
+        bool styleCompleted, completed = false, textEnabled = true, uaWordEnabled = false;
 
         public string ENWord
         {
@@ -73,7 +75,7 @@ namespace LearnWords.ViewModel.EN_UAViewModel
 
         public IScreen HostScreen { get; }
 
-        public EN_UAWordViewModel(RoutingState Router, Queue<Word> queue, List<(Word,bool)> comletedList,IScreen screen = null)
+        public EN_UAWordViewModel(RoutingState Router, Queue<Word> queue, List<(Word, bool)> comletedList, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
@@ -104,6 +106,14 @@ namespace LearnWords.ViewModel.EN_UAViewModel
                 UAWordEnabled = true;
                 TextEnabled = false;
                 Completed = true;
+
+                if (StyleCompleted)
+                    word.CompletedENUA++;
+                else
+                    word.FailedENUA++;
+
+                Task.Run(() => DataWord.UpdateData(word));
+
                 comletedList.Add((word, StyleCompleted));
             }, Observable.Concat(canExecute, canStart));
 
@@ -111,10 +121,12 @@ namespace LearnWords.ViewModel.EN_UAViewModel
 
             Next = ReactiveCommand.CreateFromObservable(() =>
             {
-                if(comletedList.Count != 10)
+                if (comletedList.Count != 10)
                     return Router.Navigate.Execute(new EN_UAWordViewModel(Router, queue, comletedList));
                 return Router.Navigate.Execute(new ResultWordViewModel(Router, comletedList));
             }, canNext);
+
+            Next.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
         }
     }
 }
