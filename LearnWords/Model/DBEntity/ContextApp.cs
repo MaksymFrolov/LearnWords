@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LearnWords.Model.DBEntity
 {
-    internal class ContextApp : DbContext
+    public class ContextApp : DbContext
     {
         public DbSet<Word> Words { get; set; }
 
@@ -15,7 +15,6 @@ namespace LearnWords.Model.DBEntity
 
         public DbSet<Sentence> Sentences { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseSqlServer("Server=DESKTOP-SP1DHKR\\SQLFORMAX;Database=LearnWordsDataBase;Trusted_Connection=True;");
+        public ContextApp(DbContextOptions optionsBuilder) : base(optionsBuilder) { }
     }
 }

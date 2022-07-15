@@ -1,9 +1,8 @@
 ﻿using DynamicData;
 using DynamicData.Binding;
-using LearnWords.Model.CRUD;
 using LearnWords.Model.DBEntity.Clases;
+using LearnWords.Model.Service;
 using LearnWords.ViewModel.CreateViewModel;
-using LearnWords.ViewModel.UpdateViewModel;
 using ReactiveUI;
 using Splat;
 using System;
@@ -17,7 +16,7 @@ using System.Windows;
 
 namespace LearnWords.ViewModel.RedactionViewModel
 {
-    internal class RedactionWordViewModel : ReactiveObject, IRoutableViewModel
+    public class RedactionWordViewModel : ReactiveObject, IRoutableViewModel
     {
         public string UrlPathSegment => "RedactionWord";
 
@@ -41,14 +40,20 @@ namespace LearnWords.ViewModel.RedactionViewModel
 
         public IScreen HostScreen { get; }
 
-        public RedactionWordViewModel(RoutingState Router, IScreen screen = null)
+        public RedactionWordViewModel(RoutingState Router, GenericDataService<Word> dataService, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
-            Source = new ObservableCollectionExtended<Word>(DataWord.ReadData());
+            Source = new();
             Source.ToObservableChangeSet()
-                .Bind(out listResult)
-                .Subscribe();
+                    .Bind(out listResult)
+                    .Subscribe();
+
+            ReactiveCommand.CreateFromTask(async () =>
+            {
+                foreach (var data in await dataService.GetAll())
+                    Source.Add(data);
+            }).Execute();
 
             IObservable<bool> canClear =
                this.WhenAnyValue(x => x.SelectedRow)
@@ -56,9 +61,9 @@ namespace LearnWords.ViewModel.RedactionViewModel
             canClear
                 .Subscribe(x => CanClear = x);
 
-            Add = ReactiveCommand.CreateFromObservable(() =>
+            Add = ReactiveCommand.CreateFromTask(async () =>
             {
-                return Router.Navigate.Execute(new CreateWordViewModel(Router));
+                return await Router.Navigate.Execute(new CreateWordViewModel(Router, dataService));
             });
 
             Add.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
@@ -67,30 +72,24 @@ namespace LearnWords.ViewModel.RedactionViewModel
             {
                 Queue<Word> queue = new();
 
-                await Task.Run(() =>
+                while (CanClear)
                 {
-                    while (CanClear)
-                    {
-                        queue.Enqueue(SelectedRow);
-                        Source.Remove(SelectedRow);
-                    }
-                });
+                    queue.Enqueue(SelectedRow);
+                    Source.Remove(SelectedRow);
+                }
 
-                return await Router.Navigate.Execute(new UpdateWordViewModel(Router, queue));
+                return await Router.Navigate.Execute(new CreateWordViewModel(Router, dataService, queue));
             }, canClear);
 
             Update.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
 
             Clear = ReactiveCommand.CreateFromTask(async () =>
             {
-                await Task.Run(() =>
+                while (CanClear)
                 {
-                    while (CanClear)
-                    {
-                        DataWord.DeleteData(SelectedRow);
-                        Source.Remove(SelectedRow);
-                    }
-                });
+                    await dataService.Delete(SelectedRow);
+                    Source.Remove(SelectedRow);
+                }
             }, canClear);
 
             Clear.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));

@@ -1,0 +1,27 @@
+﻿<rxui:ReactiveUserControl 
+             x:Class="LearnWords.View.DefaultView"
+             x:TypeArguments="viewmodel:DefaultViewModel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LearnWords.View"
+             xmlns:rxui="http://reactiveui.net" 
+             xmlns:viewmodel="clr-namespace:LearnWords.ViewModel" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="WordEnButton" Content="Start" Grid.Column="0" Grid.Row="0" Margin="90,90,90,90" FontFamily="Times New Roman" FontSize="20"/>
+        <Button x:Name="WordUaButton" Content="Start" Grid.Column="0" Grid.Row="1" Margin="90,90,90,90" FontFamily="Times New Roman" FontSize="20"/>
+    </Grid>
+</rxui:ReactiveUserControl>

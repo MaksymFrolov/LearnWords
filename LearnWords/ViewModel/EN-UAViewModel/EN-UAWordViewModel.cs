@@ -1,5 +1,5 @@
-﻿using LearnWords.Model.CRUD;
-using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.DBEntity.Clases;
+using LearnWords.Model.Service;
 using LearnWords.ViewModel.ResultViewModel;
 using ReactiveUI;
 using Splat;
@@ -7,12 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace LearnWords.ViewModel.EN_UAViewModel
 {
-    internal class EN_UAWordViewModel : ReactiveObject, IRoutableViewModel
+    public class EN_UAWordViewModel : ReactiveObject, IRoutableViewModel
     {
         public string UrlPathSegment => "EN-UA";
 
@@ -20,7 +19,7 @@ namespace LearnWords.ViewModel.EN_UAViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enWord, uaWord, userUAWord, secondForm = "", thirdForm = "";
-        bool styleCompleted, completed = false, textEnabled = true, uaWordEnabled = false;
+        bool styleCompleted, textEnabled = true, uaWordEnabled = false, secondEnabled = true, thirdEnabled = true;
 
         public string ENWord
         {
@@ -52,11 +51,6 @@ namespace LearnWords.ViewModel.EN_UAViewModel
             get => styleCompleted;
             set => this.RaiseAndSetIfChanged(ref styleCompleted, value);
         }
-        public bool Completed
-        {
-            get => completed;
-            set => this.RaiseAndSetIfChanged(ref completed, value);
-        }
         public bool TextEnabled
         {
             get => textEnabled;
@@ -67,6 +61,16 @@ namespace LearnWords.ViewModel.EN_UAViewModel
             get => uaWordEnabled;
             set => this.RaiseAndSetIfChanged(ref uaWordEnabled, value);
         }
+        public bool SecondEnabled
+        {
+            get => secondEnabled;
+            set => this.RaiseAndSetIfChanged(ref secondEnabled, value);
+        }
+        public bool ThirdEnabled
+        {
+            get => thirdEnabled;
+            set => this.RaiseAndSetIfChanged(ref thirdEnabled, value);
+        }
 
         readonly ObservableAsPropertyHelper<bool> visibleSecond;
         public bool VisibleSecond => visibleSecond.Value;
@@ -75,7 +79,7 @@ namespace LearnWords.ViewModel.EN_UAViewModel
 
         public IScreen HostScreen { get; }
 
-        public EN_UAWordViewModel(RoutingState Router, Queue<Word> queue, List<(Word, bool)> comletedList, IScreen screen = null)
+        public EN_UAWordViewModel(RoutingState Router, GenericDataService<Word> dataService, Queue<Word> queue, List<(Word, bool)> comletedList, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
@@ -85,6 +89,11 @@ namespace LearnWords.ViewModel.EN_UAViewModel
             UAWord = word.UAWord;
             SecondForm = word.SecondForm;
             ThirdForm = word.ThirdForm;
+
+            if (string.IsNullOrEmpty(SecondForm))
+                SecondEnabled = false;
+            if (string.IsNullOrEmpty(ThirdForm))
+                ThirdEnabled = false;
 
             visibleSecond = this.WhenAnyValue(x => x.SecondForm,
                 (secondForm) =>
@@ -97,33 +106,33 @@ namespace LearnWords.ViewModel.EN_UAViewModel
                 this.WhenAnyValue(x => x.UserUAWord,
                 (userUAWord) =>
                    !string.IsNullOrEmpty(userUAWord));
-            IObservable<bool> canNext = this.WhenAnyValue(x => x.Completed);
-            IObservable<bool> canStart = this.WhenAnyValue(x => !x.Completed);
+            IObservable<bool> canNext = this.WhenAnyValue(x => x.UAWordEnabled);
 
-            Start = ReactiveCommand.Create(() =>
+            Start = ReactiveCommand.CreateFromTask(async () =>
             {
                 StyleCompleted = UserUAWord == UAWord;
                 UAWordEnabled = true;
                 TextEnabled = false;
-                Completed = true;
 
                 if (StyleCompleted)
                     word.CompletedENUA++;
                 else
                     word.FailedENUA++;
 
-                Task.Run(() => DataWord.UpdateData(word));
+                await dataService.Update(word);
 
                 comletedList.Add((word, StyleCompleted));
-            }, Observable.Concat(canExecute, canStart));
+
+                Start.Dispose();
+            }, canExecute);
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
 
             Next = ReactiveCommand.CreateFromObservable(() =>
             {
                 if (comletedList.Count != 10)
-                    return Router.Navigate.Execute(new EN_UAWordViewModel(Router, queue, comletedList));
-                return Router.Navigate.Execute(new ResultWordViewModel(Router, comletedList));
+                    return Router.Navigate.Execute(new EN_UAWordViewModel(Router, dataService, queue, comletedList));
+                return Router.Navigate.Execute(new ResultWordViewModel(Router, dataService, comletedList));
             }, canNext);
 
             Next.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));

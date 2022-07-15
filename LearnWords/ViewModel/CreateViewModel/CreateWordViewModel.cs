@@ -1,5 +1,6 @@
-﻿using LearnWords.Model.CRUD;
-using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.DBEntity.Clases;
+using LearnWords.Model.Service;
+using LearnWords.ViewModel.RedactionViewModel;
 using ReactiveUI;
 using Splat;
 using System;
@@ -13,7 +14,7 @@ using System.Windows;
 
 namespace LearnWords.ViewModel.CreateViewModel
 {
-    internal class CreateWordViewModel : ReactiveObject, IRoutableViewModel
+    public class CreateWordViewModel : ReactiveObject, IRoutableViewModel
     {
         public string UrlPathSegment => "CreateWord";
 
@@ -44,7 +45,7 @@ namespace LearnWords.ViewModel.CreateViewModel
 
         public IScreen HostScreen { get; }
 
-        public CreateWordViewModel(RoutingState Router, IScreen screen = null)
+        public CreateWordViewModel(RoutingState Router, GenericDataService<Word> dataService, IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
@@ -64,9 +65,44 @@ namespace LearnWords.ViewModel.CreateViewModel
                     ThirdForm = thirdForm
                 };
 
-                await Task.Run(() => DataWord.CreateData(word));
+                await dataService.Create(word);
 
-                return await Router.NavigateBack.Execute();
+                return await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataService));
+            }, canExecute);
+
+            Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
+        }
+
+        public CreateWordViewModel(RoutingState Router, GenericDataService<Word> dataService, Queue<Word> queue, IScreen screen = null)
+        {
+            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
+
+            Word word = queue.Dequeue();
+
+            ENWord = word.ENWord;
+            UAWord = word.UAWord;
+            SecondForm = word.SecondForm;
+            ThirdForm = word.ThirdForm;
+
+            IObservable<bool> canExecute =
+                this.WhenAnyValue(x => x.ENWord, x => x.UAWord,
+                (enWord, uaWord) =>
+                   !string.IsNullOrEmpty(enWord) &&
+                   !string.IsNullOrEmpty(uaWord));
+
+            Start = ReactiveCommand.CreateFromTask(async () =>
+            {
+                word.ENWord = ENWord;
+                word.UAWord = UAWord;
+                word.SecondForm = SecondForm;
+                word.ThirdForm = ThirdForm;
+
+                await Task.Run(() => dataService.Update(word));
+
+                if (queue.Count != 0)
+                    return await Router.Navigate.Execute(new CreateWordViewModel(Router, dataService, queue));
+                else
+                    return await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataService));
             }, canExecute);
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
