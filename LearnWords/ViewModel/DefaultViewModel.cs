@@ -145,6 +145,7 @@ namespace LearnWords.ViewModel
             GenericDataService<PresentSentence> presentService = dataPresentService ?? new(new());
 
             #region commands
+
             ReactiveCommand.CreateFromTask(async () =>
             {
                 var list = await wordService.GetAll();
@@ -274,6 +275,7 @@ namespace LearnWords.ViewModel
             });
 
             StartSentenceUA_EN.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
+
             #endregion
         }
     }

@@ -1,5 +1,4 @@
-﻿using LearnWords.Model.DBEntity;
-using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.DBEntity.Clases;
 using LearnWords.Model.Service;
 using LearnWords.View;
 using LearnWords.View.CreateView;
@@ -17,7 +16,6 @@ using Splat;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Windows;
 
 namespace LearnWords.ViewModel
 {
@@ -46,13 +44,13 @@ namespace LearnWords.ViewModel
 
         public MainViewModel()
         {
-            Router = new RoutingState();
+            Router = new();
 
-            dataWordService = new GenericDataService<Word>(new ContextAppFactory());
-            dataSentenceService = new GenericDataService<Sentence>(new ContextAppFactory());
-            dataFutureService = new GenericDataService<FutureSentence>(new ContextAppFactory());
-            dataPastService = new GenericDataService<PastSentence>(new ContextAppFactory());
-            dataPresentService = new GenericDataService<PresentSentence>(new ContextAppFactory());
+            dataWordService = new(new());
+            dataSentenceService = new(new());
+            dataFutureService = new(new());
+            dataPastService = new(new());
+            dataPresentService = new(new());
 
             Locator.CurrentMutable.Register(() => new CreateWordView(), typeof(IViewFor<CreateWordViewModel>));
             Locator.CurrentMutable.Register(() => new EN_UAWordView(), typeof(IViewFor<EN_UAWordViewModel>));
@@ -72,16 +70,12 @@ namespace LearnWords.ViewModel
                 return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
 
-            //ENUAWord.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
-
             UAENWord = ReactiveCommand.CreateFromTask(async () =>
             {
                 Queue<Word> queue = new(await dataWordService.GetTen(false));
 
                 return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
-
-            //UAENWord.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
         }
     }
 }
