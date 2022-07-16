@@ -1,5 +1,6 @@
 ﻿using LearnWords.Model.DBEntity.Clases;
 using LearnWords.Model.Service;
+using LearnWords.ViewModel.RedactionViewModel;
 using ReactiveUI;
 using Splat;
 using System;
@@ -13,7 +14,7 @@ using System.Windows;
 
 namespace LearnWords.ViewModel.CreateViewModel
 {
-    internal class CreatePastViewModel : ReactiveObject, IRoutableViewModel
+    public class CreatePastViewModel : ReactiveObject, IRoutableViewModel
     {
         public string UrlPathSegment => "CreatePast";
 
