@@ -17,6 +17,7 @@ using Splat;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Windows;
 
 namespace LearnWords.ViewModel
 {
@@ -71,12 +72,16 @@ namespace LearnWords.ViewModel
                 return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
 
+            //ENUAWord.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
+
             UAENWord = ReactiveCommand.CreateFromTask(async () =>
             {
                 Queue<Word> queue = new(await dataWordService.GetTen(false));
 
                 return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
+
+            //UAENWord.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
         }
     }
 }
