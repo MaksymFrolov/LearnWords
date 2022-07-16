@@ -59,10 +59,10 @@ namespace LearnWords.ViewModel.CreateViewModel
             {
                 Word word = new()
                 {
-                    ENWord = enWord,
-                    UAWord = uaWord,
-                    SecondForm = secondForm,
-                    ThirdForm = thirdForm
+                    ENWord = ENWord,
+                    UAWord = UAWord,
+                    SecondForm = SecondForm,
+                    ThirdForm = ThirdForm
                 };
 
                 await dataService.Create(word);
