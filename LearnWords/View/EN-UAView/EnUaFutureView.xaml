@@ -1,0 +1,46 @@
+﻿<rxui:ReactiveUserControl 
+             x:Class="LearnWords.View.EN_UAView.EnUaFutureView"
+             x:TypeArguments="en_uaviewmodel:EnUaFutureViewModel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LearnWords.View.EN_UAView"
+             xmlns:rxui="http://reactiveui.net" 
+             xmlns:en_uaviewmodel="clr-namespace:LearnWords.ViewModel.EN_UAViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Future Simple:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Future Continuous:" Grid.Column="0" Grid.Row="1" Visibility="{Binding ElementName=ENFutureContinuousLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Future Perfect:" Grid.Column="0" Grid.Row="2" Visibility="{Binding ElementName=ENFuturePerfectLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Future Perfect Continuous:" Grid.Column="0" Grid.Row="3" Visibility="{Binding ElementName=ENFuturePerfectContinuousLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Ukrainian Sentence:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="5" Visibility="{Binding ElementName=UAFutureLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label x:Name="ENFutureSimpleLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ENFutureContinuousLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ENFuturePerfectLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ENFuturePerfectContinuousLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="UAFutureLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <TextBox x:Name="UAFutureTextBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Width="500" Height="28"/>
+
+        <Button Style="{DynamicResource DoneButton}" x:Name="StartButton" Grid.ColumnSpan="2" Grid.Row="6" Height="58" Width="58" VerticalAlignment="Stretch"/>
+        <Button Style="{DynamicResource NextButton}" x:Name="NextButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" Height="58" Width="58"/>
+    </Grid>
+</rxui:ReactiveUserControl>
