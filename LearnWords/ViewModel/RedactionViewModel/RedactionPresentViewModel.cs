@@ -17,7 +17,7 @@ using System.Windows;
 
 namespace LearnWords.ViewModel.RedactionViewModel
 {
-    internal class RedactionPresentViewModel : ReactiveObject, IRoutableViewModel
+    public class RedactionPresentViewModel : ReactiveObject, IRoutableViewModel
     {
         public string UrlPathSegment => "RedactionPresent";
 

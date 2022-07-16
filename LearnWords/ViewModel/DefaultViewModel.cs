@@ -1,4 +1,5 @@
-﻿using LearnWords.Model.DBEntity.Clases;
+﻿using LearnWords.Model.DBEntity;
+using LearnWords.Model.DBEntity.Clases;
 using LearnWords.Model.Service;
 using LearnWords.ViewModel.EN_UAViewModel;
 using LearnWords.ViewModel.UA_ENViewModel;
@@ -40,13 +41,19 @@ namespace LearnWords.ViewModel
             set => this.RaiseAndSetIfChanged(ref averageWordsEn, value);
         }
 
-        public DefaultViewModel(RoutingState Router, GenericDataService<Word> dataService, IScreen screen = null)
+        public DefaultViewModel(RoutingState Router, 
+            GenericDataService<Word> dataWordService = null, 
+            GenericDataService<Sentence> dataSentenceService = null, 
+            GenericDataService<FutureSentence> dataFutureService = null,
+            GenericDataService<PastSentence> dataPastService = null,
+            GenericDataService<PresentSentence> dataPresentService = null,
+            IScreen screen = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
 
             ReactiveCommand.CreateFromTask(async () =>
             {
-                var list = await dataService.GetAll();
+                var list = await dataWordService.GetAll();
                 CountWords = $"Amount: {list.Count()}";
                 AverageWordsEn = $"Average: {Math.Round(list.Average(t => t.SuccesENUA),2)}";
                 AverageWordsUa = $"Average: {Math.Round(list.Average(t => t.SuccesUAEN),2)}";
@@ -54,16 +61,16 @@ namespace LearnWords.ViewModel
 
             StartWordEN_UA = ReactiveCommand.CreateFromTask(async () =>
             {
-                Queue<Word> queue = new(await dataService.GetTen(true));
+                Queue<Word> queue = new(await dataWordService.GetTen(true));
 
-                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, dataService, queue, new List<(Word, bool)>()));
+                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
 
             StartWordUA_EN = ReactiveCommand.CreateFromTask(async () =>
             {
-                Queue<Word> queue = new(await dataService.GetTen(false));
+                Queue<Word> queue = new(await dataWordService.GetTen(false));
 
-                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, dataService, queue, new List<(Word, bool)>()));
+                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
         }
     }

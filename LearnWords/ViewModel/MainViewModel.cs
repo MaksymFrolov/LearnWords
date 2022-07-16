@@ -60,7 +60,7 @@ namespace LearnWords.ViewModel
             Locator.CurrentMutable.Register(() => new UA_ENWordView(), typeof(IViewFor<UA_ENWordViewModel>));
             Locator.CurrentMutable.Register(() => new DefaultView(), typeof(IViewFor<DefaultViewModel>));
 
-            Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService));
+            Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService, dataSentenceService, dataFutureService, dataPastService, dataPresentService));
 
             OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataWordService)));
 
