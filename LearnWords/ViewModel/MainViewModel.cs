@@ -62,7 +62,7 @@ namespace LearnWords.ViewModel
 
             Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService));
 
-            OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, (GenericDataService<Word>)dataService)));
+            OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataWordService)));
 
             ENUAWord = ReactiveCommand.CreateFromTask(async () =>
             {
