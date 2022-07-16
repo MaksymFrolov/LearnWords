@@ -30,6 +30,12 @@ namespace LearnWords.View
 
             this.WhenActivated(disposable =>
             {
+                this.Bind(ViewModel, x => x.CountWords, x => x.CountWordLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AverageWordsEn, x => x.AverageWordEnLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AverageWordsUa, x => x.AverageWordUaLabel.Content)
+                    .DisposeWith(disposable);
                 this.BindCommand(ViewModel, x => x.StartWordEN_UA, x => x.WordEnButton)
                     .DisposeWith(disposable);
                 this.BindCommand(ViewModel, x => x.StartWordUA_EN, x => x.WordUaButton)

@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -33,11 +33,11 @@
         <Label x:Name="SecondFormLabel" Visibility="{Binding ElementName=ENWordLabel,Path=Visibility}" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label x:Name="ThirdFormLabel" Visibility="{Binding ElementName=ENWordLabel,Path=Visibility}" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <TextBox x:Name="ENWordTextBox" Grid.Column="1" Grid.Row="1" Margin="20 20 40 20" FontFamily="Times New Roman" FontSize="20"/>
-        <TextBox x:Name="SecondFormTextBox" Grid.Column="1" Grid.Row="2" Margin="20 20 40 20" FontFamily="Times New Roman" FontSize="20"/>
-        <TextBox x:Name="ThirdFormTextBox" Grid.Column="1" Grid.Row="3" Margin="20 20 40 20" FontFamily="Times New Roman" FontSize="20"/>
+        <TextBox x:Name="ENWordTextBox" Grid.Column="1" Grid.Row="1" Width="250" Height="28"/>
+        <TextBox x:Name="SecondFormTextBox" Grid.Column="1" Grid.Row="2" Width="250" Height="28"/>
+        <TextBox x:Name="ThirdFormTextBox" Grid.Column="1" Grid.Row="3" Width="250" Height="28"/>
 
-        <Button x:Name="StartButton" Content="Start" Grid.ColumnSpan="2" Grid.Row="4" Margin="200,20,200,20" FontFamily="Times New Roman" FontSize="20"/>
-        <Button x:Name="NextButton" Content="Next" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Margin="200,20,200,20" FontFamily="Times New Roman" FontSize="20"/>
+        <Button Style="{DynamicResource DoneButton}" x:Name="StartButton" Grid.ColumnSpan="2" Grid.Row="4" Height="58" Width="58" VerticalAlignment="Stretch"/>
+        <Button Style="{DynamicResource NextButton}" x:Name="NextButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Height="58" Width="58"/>
     </Grid>
 </rxui:ReactiveUserControl>

@@ -61,10 +61,7 @@ namespace LearnWords.ViewModel.RedactionViewModel
             canClear
                 .Subscribe(x => CanClear = x);
 
-            Add = ReactiveCommand.CreateFromTask(async () =>
-            {
-                return await Router.Navigate.Execute(new CreateWordViewModel(Router, dataService));
-            });
+            Add = ReactiveCommand.CreateFromTask(async () => await Router.Navigate.Execute(new CreateWordViewModel(Router, dataService)));
 
             Add.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
 

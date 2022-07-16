@@ -128,11 +128,11 @@ namespace LearnWords.ViewModel.EN_UAViewModel
 
             Start.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));
 
-            Next = ReactiveCommand.CreateFromObservable(() =>
+            Next = ReactiveCommand.CreateFromTask(async () =>
             {
                 if (comletedList.Count != 10)
-                    return Router.Navigate.Execute(new EN_UAWordViewModel(Router, dataService, queue, comletedList));
-                return Router.Navigate.Execute(new ResultWordViewModel(Router, dataService, comletedList));
+                    return await Router.Navigate.Execute(new EN_UAWordViewModel(Router, dataService, queue, comletedList));
+                return await Router.Navigate.Execute(new ResultWordViewModel(Router, dataService, comletedList));
             }, canNext);
 
             Next.ThrownExceptions.Subscribe(exception => MessageBox.Show($"Виникла помилка: {exception.Message}"));

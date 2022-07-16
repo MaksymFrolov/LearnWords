@@ -30,7 +30,11 @@ namespace LearnWords.ViewModel
 
         public ReactiveCommand<Unit, IRoutableViewModel> UAENWord { get; }
 
-        readonly GenericDataService<Word> dataService;
+        readonly GenericDataService<Word> dataWordService;
+        readonly GenericDataService<Sentence> dataSentenceService;
+        readonly GenericDataService<FutureSentence> dataFutureService;
+        readonly GenericDataService<PastSentence> dataPastService;
+        readonly GenericDataService<PresentSentence> dataPresentService;
 
         string title = "Learn Words";
         public string Title
@@ -42,7 +46,12 @@ namespace LearnWords.ViewModel
         public MainViewModel()
         {
             Router = new RoutingState();
-            dataService = new GenericDataService<Word>(new ContextAppFactory());
+
+            dataWordService = new GenericDataService<Word>(new ContextAppFactory());
+            dataSentenceService = new GenericDataService<Sentence>(new ContextAppFactory());
+            dataFutureService = new GenericDataService<FutureSentence>(new ContextAppFactory());
+            dataPastService = new GenericDataService<PastSentence>(new ContextAppFactory());
+            dataPresentService = new GenericDataService<PresentSentence>(new ContextAppFactory());
 
             Locator.CurrentMutable.Register(() => new CreateWordView(), typeof(IViewFor<CreateWordViewModel>));
             Locator.CurrentMutable.Register(() => new EN_UAWordView(), typeof(IViewFor<EN_UAWordViewModel>));
@@ -51,22 +60,22 @@ namespace LearnWords.ViewModel
             Locator.CurrentMutable.Register(() => new UA_ENWordView(), typeof(IViewFor<UA_ENWordViewModel>));
             Locator.CurrentMutable.Register(() => new DefaultView(), typeof(IViewFor<DefaultViewModel>));
 
-            Router.NavigateAndReset.Execute(new DefaultViewModel(Router, dataService));
+            Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService));
 
-            OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataService)));
+            OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, (GenericDataService<Word>)dataService)));
 
             ENUAWord = ReactiveCommand.CreateFromTask(async () =>
             {
-                Queue<Word> queue = new(await dataService.GetTen(true));
+                Queue<Word> queue = new(await dataWordService.GetTen(true));
 
-                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, dataService, queue, new List<(Word, bool)>()));
+                return await Router.NavigateAndReset.Execute(new EN_UAWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
 
             UAENWord = ReactiveCommand.CreateFromTask(async () =>
             {
-                Queue<Word> queue = new(await dataService.GetTen(false));
+                Queue<Word> queue = new(await dataWordService.GetTen(false));
 
-                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, dataService, queue, new List<(Word, bool)>()));
+                return await Router.NavigateAndReset.Execute(new UA_ENWordViewModel(Router, dataWordService, queue, new List<(Word, bool)>()));
             });
         }
     }
