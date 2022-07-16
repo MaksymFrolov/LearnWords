@@ -3,14 +3,15 @@ using ReactiveUI;
 using System.Reactive.Disposables;
 using System.Windows.Markup;
 
+
 namespace LearnWords.View.RedactionView
 {
     /// <summary>
-    /// Логика взаимодействия для RedactionWordView.xaml
+    /// Логика взаимодействия для RedactionSentenceView.xaml
     /// </summary>
-    public partial class RedactionWordView : ReactiveUserControl<RedactionWordViewModel>, IComponentConnector
+    public partial class RedactionSentenceView : ReactiveUserControl<RedactionSentenceViewModel>, IComponentConnector
     {
-        public RedactionWordView()
+        public RedactionSentenceView()
         {
             InitializeComponent();
 

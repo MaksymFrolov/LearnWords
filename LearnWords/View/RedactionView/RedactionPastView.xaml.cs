@@ -6,11 +6,11 @@ using System.Windows.Markup;
 namespace LearnWords.View.RedactionView
 {
     /// <summary>
-    /// Логика взаимодействия для RedactionWordView.xaml
+    /// Логика взаимодействия для RedactionPastView.xaml
     /// </summary>
-    public partial class RedactionWordView : ReactiveUserControl<RedactionWordViewModel>, IComponentConnector
+    public partial class RedactionPastView : ReactiveUserControl<RedactionPastViewModel>, IComponentConnector
     {
-        public RedactionWordView()
+        public RedactionPastView()
         {
             InitializeComponent();
 
