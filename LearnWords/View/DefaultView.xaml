@@ -24,6 +24,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
         <Label Content="Words" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -41,5 +42,29 @@
 
         <Button x:Name="SentenceEnButton" Content="English Translation" Grid.Column="1" Grid.Row="2" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
         <Button x:Name="SentenceUaButton" Content="Ukrainian Translation" Grid.Column="1" Grid.Row="4" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+
+        <Label Content="Future" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="CountFutureLabel" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AverageFutureEnLabel" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AverageFutureUaLabel" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+
+        <Button x:Name="FutureEnButton" Content="English Translation" Grid.Column="2" Grid.Row="2" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+        <Button x:Name="FutureUaButton" Content="Ukrainian Translation" Grid.Column="2" Grid.Row="4" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+
+        <Label Content="Present" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="CountPresentLabel" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AveragePresentEnLabel" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AveragePresentUaLabel" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+
+        <Button x:Name="PresentEnButton" Content="English Translation" Grid.Column="3" Grid.Row="2" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+        <Button x:Name="PresentUaButton" Content="Ukrainian Translation" Grid.Column="3" Grid.Row="4" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+
+        <Label Content="Past" Grid.Column="4" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="CountPastLabel" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AveragePastEnLabel" Grid.Column="4" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AveragePastUaLabel" Grid.Column="4" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+
+        <Button x:Name="PastEnButton" Content="English Translation" Grid.Column="4" Grid.Row="2" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+        <Button x:Name="PastUaButton" Content="Ukrainian Translation" Grid.Column="4" Grid.Row="4" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
     </Grid>
 </rxui:ReactiveUserControl>

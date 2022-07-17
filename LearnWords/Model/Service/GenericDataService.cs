@@ -46,6 +46,10 @@ namespace LearnWords.Model.Service
         public async Task<IEnumerable<T>> GetTen(bool enua)
         {
             List<T> data = (await GetAll()).ToList();
+
+            if (data.Count < 10)
+                throw new ArgumentNullException("Amount<10", new ArgumentException(nameof(data)));
+
             Random rnd = new();
 
             for (int i = data.Count - 1; i >= 1; i--)

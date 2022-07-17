@@ -9,7 +9,7 @@
         xmlns:viewmodel="clr-namespace:LearnWords.ViewModel"
     xmlns:Controls="clr-namespace:ReactiveUI;assembly=ReactiveUI.Wpf"
         mc:Ignorable="d"
-        Title="Word Learning" MinHeight="450" MinWidth="800" Height="450" Width="800" Icon="/Icon.png">
+        Title="Word Learning" MinHeight="450" MinWidth="800" Height="500" Width="1000" Icon="/Icon.png">
     
     <Grid Background="#FF292B2C">
         <Grid.RowDefinitions>
@@ -24,10 +24,30 @@
                 <MenuItem x:Name="menuWordENUA" Header="Translation EN-UA"/>
                 <MenuItem x:Name="menuWordUAEN" Header="Translation UA-EN"/>
             </MenuItem>
-            <MenuItem x:Name="menuSentence" Header="Sentence"/>
-            <MenuItem x:Name="menuFuture" Header="Future"/>
-            <MenuItem x:Name="menuPast" Header="Past"/>
-            <MenuItem x:Name="menuPresent" Header="Present"/>
+            <MenuItem x:Name="menuSentence" Header="Sentence">
+                <MenuItem x:Name="menuSentenceRedaction" Header="Redaction Sentence"/>
+                <Separator/>
+                <MenuItem x:Name="menuSentenceENUA" Header="Translation EN-UA"/>
+                <MenuItem x:Name="menuSentenceUAEN" Header="Translation UA-EN"/>
+            </MenuItem>
+            <MenuItem x:Name="menuFuture" Header="Future">
+                <MenuItem x:Name="menuFutureRedaction" Header="Redaction Future"/>
+                <Separator/>
+                <MenuItem x:Name="menuFutureENUA" Header="Translation EN-UA"/>
+                <MenuItem x:Name="menuFutureUAEN" Header="Translation UA-EN"/>
+            </MenuItem>
+            <MenuItem x:Name="menuPresent" Header="Present">
+                <MenuItem x:Name="menuPresentRedaction" Header="Redaction Present"/>
+                <Separator/>
+                <MenuItem x:Name="menuPresentENUA" Header="Translation EN-UA"/>
+                <MenuItem x:Name="menuPresentUAEN" Header="Translation UA-EN"/>
+            </MenuItem>
+            <MenuItem x:Name="menuPast" Header="Past">
+                <MenuItem x:Name="menuPastRedaction" Header="Redaction Past"/>
+                <Separator/>
+                <MenuItem x:Name="menuPastENUA" Header="Translation EN-UA"/>
+                <MenuItem x:Name="menuPastUAEN" Header="Translation UA-EN"/>
+            </MenuItem>
         </Menu>
 
         <reactiveui:RoutedViewHost

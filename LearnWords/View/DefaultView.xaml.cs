@@ -51,6 +51,39 @@ namespace LearnWords.View
                     .DisposeWith(disposable);
                 this.BindCommand(ViewModel, x => x.StartSentenceUA_EN, x => x.SentenceUaButton)
                     .DisposeWith(disposable);
+
+                this.Bind(ViewModel, x => x.CountPast, x => x.CountPastLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AveragePastEn, x => x.AveragePastEnLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AveragePastUa, x => x.AveragePastUaLabel.Content)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartPastEN_UA, x => x.PastEnButton)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartPastUA_EN, x => x.PastUaButton)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel, x => x.CountPresent, x => x.CountPresentLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AveragePresentEn, x => x.AveragePresentEnLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AveragePresentUa, x => x.AveragePresentUaLabel.Content)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartPresentEN_UA, x => x.PresentEnButton)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartPresentUA_EN, x => x.PresentUaButton)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel, x => x.CountFuture, x => x.CountFutureLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AverageFutureEn, x => x.AverageFutureEnLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AverageFutureUa, x => x.AverageFutureUaLabel.Content)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartFutureEN_UA, x => x.FutureEnButton)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartFutureUA_EN, x => x.FutureUaButton)
+                    .DisposeWith(disposable);
             });
         }
     }

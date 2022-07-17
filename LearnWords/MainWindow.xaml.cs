@@ -40,6 +40,34 @@ namespace LearnWords
                     .DisposeWith(disposables);
                 this.BindCommand(ViewModel, x => x.UAENWord , x => x.menuWordUAEN)
                     .DisposeWith(disposables);
+                
+                this.BindCommand(ViewModel, x => x.OpenRedactionSentence, x => x.menuSentenceRedaction)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.ENUASentence, x => x.menuSentenceENUA)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.UAENSentence, x => x.menuSentenceUAEN)
+                    .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel, x => x.OpenRedactionFuture, x => x.menuFutureRedaction)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.ENUAFuture, x => x.menuFutureENUA)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.UAENFuture, x => x.menuFutureUAEN)
+                    .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel, x => x.OpenRedactionPresent, x => x.menuPresentRedaction)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.ENUAPresent, x => x.menuPresentENUA)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.UAENPresent, x => x.menuPresentUAEN)
+                    .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel, x => x.OpenRedactionPast, x => x.menuPastRedaction)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.ENUAPast, x => x.menuPastENUA)
+                    .DisposeWith(disposables);
+                this.BindCommand(ViewModel, x => x.UAENPast, x => x.menuPastUAEN)
+                    .DisposeWith(disposables);
             });
         }
     }
