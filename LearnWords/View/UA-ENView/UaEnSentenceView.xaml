@@ -1,13 +1,13 @@
 ﻿<rxui:ReactiveUserControl 
-             x:Class="LearnWords.View.EN_UAView.EnUaSentenceView"
-             x:TypeArguments="en_uaviewmodel:EnUaSentenceViewModel"
+             x:Class="LearnWords.View.UA_ENView.UaEnSentenceView"
+             x:TypeArguments="ua_enviewmodel:UaEnSentenceViewModel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LearnWords.View.EN_UAView"
+             xmlns:local="clr-namespace:LearnWords.View.UA_ENView"
              xmlns:rxui="http://reactiveui.net" 
-             xmlns:en_uaviewmodel="clr-namespace:LearnWords.ViewModel.EN_UAViewModel" 
+             xmlns:ua_enviewmodel="clr-namespace:LearnWords.ViewModel.UA_ENViewModel" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -23,13 +23,13 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="English Sentence:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <Label Content="Ukrainian Sentence:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="2" Visibility="{Binding ElementName=UASentenceLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <Label x:Name="ENCentenceLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label x:Name="UASentenceLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="English Sentence:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Ukrainian Sentence:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="2" Visibility="{Binding ElementName=ENCentenceLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label x:Name="ENCentenceLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="UASentenceLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <TextBox x:Name="UASentenceTextBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Width="300" Height="28"/>
+        <TextBox x:Name="ENSentenceTextBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Width="300" Height="28"/>
 
         <Button Style="{DynamicResource DoneButton}" x:Name="StartButton" Grid.ColumnSpan="2" Grid.Row="5" Height="58" Width="58" VerticalAlignment="Stretch"/>
         <Button Style="{DynamicResource NextButton}" x:Name="NextButton" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Height="58" Width="58"/>

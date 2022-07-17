@@ -59,6 +59,13 @@ namespace LearnWords.ViewModel
             Locator.CurrentMutable.Register(() => new UA_ENWordView(), typeof(IViewFor<UA_ENWordViewModel>));
             Locator.CurrentMutable.Register(() => new DefaultView(), typeof(IViewFor<DefaultViewModel>));
 
+            //Locator.CurrentMutable.Register(() => new CreateWordView(), typeof(IViewFor<CreateWordViewModel>));
+            //Locator.CurrentMutable.Register(() => new EN_UAWordView(), typeof(IViewFor<EN_UAWordViewModel>));
+            //Locator.CurrentMutable.Register(() => new RedactionWordView(), typeof(IViewFor<RedactionWordViewModel>));
+            //Locator.CurrentMutable.Register(() => new ResultWordView(), typeof(IViewFor<ResultWordViewModel>));
+            //Locator.CurrentMutable.Register(() => new UA_ENWordView(), typeof(IViewFor<UA_ENWordViewModel>));
+            //Locator.CurrentMutable.Register(() => new DefaultView(), typeof(IViewFor<DefaultViewModel>));
+
             Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService, dataSentenceService, dataFutureService, dataPastService, dataPresentService));
 
             OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataWordService)));

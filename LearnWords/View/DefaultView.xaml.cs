@@ -40,6 +40,17 @@ namespace LearnWords.View
                     .DisposeWith(disposable);
                 this.BindCommand(ViewModel, x => x.StartWordUA_EN, x => x.WordUaButton)
                     .DisposeWith(disposable);
+
+                this.Bind(ViewModel, x => x.CountSentence, x => x.CountSentenceLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AverageSentenceEn, x => x.AverageSentenceEnLabel.Content)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.AverageSentenceUa, x => x.AverageSentenceUaLabel.Content)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartSentenceEN_UA, x => x.SentenceEnButton)
+                    .DisposeWith(disposable);
+                this.BindCommand(ViewModel, x => x.StartSentenceUA_EN, x => x.SentenceUaButton)
+                    .DisposeWith(disposable);
             });
         }
     }

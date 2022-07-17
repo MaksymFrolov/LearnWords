@@ -33,5 +33,13 @@
 
         <Button x:Name="WordEnButton" Content="English Translation" Grid.Column="0" Grid.Row="2" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
         <Button x:Name="WordUaButton" Content="Ukrainian Translation" Grid.Column="0" Grid.Row="4" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+
+        <Label Content="Sentence" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="CountSentenceLabel" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AverageSentenceEnLabel" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+        <Label x:Name="AverageSentenceUaLabel" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
+
+        <Button x:Name="SentenceEnButton" Content="English Translation" Grid.Column="1" Grid.Row="2" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
+        <Button x:Name="SentenceUaButton" Content="Ukrainian Translation" Grid.Column="1" Grid.Row="4" Height="40" Width="180" FontFamily="Times New Roman" FontSize="20"/>
     </Grid>
 </rxui:ReactiveUserControl>
