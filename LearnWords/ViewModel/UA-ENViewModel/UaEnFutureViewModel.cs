@@ -19,7 +19,8 @@ namespace LearnWords.ViewModel.UA_ENViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enFutureSimple, uaFuture, userENFutureSimple, userFutureContinuous, userFuturePerfect, userFuturePerfectContinuous, futureContinuous, futurePerfect, futurePerfectContinuous;
-        bool styleCompleted, textEnabled = true, futureEnabled = false, futureContinuousEnabled = true, futurePerfectEnabled = true, futurePerfectContinuousEnabled = true;
+        bool styleCompleted, textEnabled = true, futureEnabled = false, futureContinuousEnabled = true, futurePerfectEnabled = true, futurePerfectContinuousEnabled = true,
+                                                                        futureContinuousCorrectEnabled = false, futurePerfectCorrectEnabled = false, futurePerfectContinuousCorrectEnabled = false;
 
         public string ENFutureSimple
         {
@@ -96,6 +97,21 @@ namespace LearnWords.ViewModel.UA_ENViewModel
             get => futurePerfectContinuousEnabled;
             set => this.RaiseAndSetIfChanged(ref futurePerfectContinuousEnabled, value);
         }
+        public bool FutureContinuousCorrectEnabled
+        {
+            get => futureContinuousCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref futureContinuousCorrectEnabled, value);
+        }
+        public bool FuturePerfectCorrectEnabled
+        {
+            get => futurePerfectCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref futurePerfectCorrectEnabled, value);
+        }
+        public bool FuturePerfectContinuousCorrectEnabled
+        {
+            get => futurePerfectContinuousCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref futurePerfectContinuousCorrectEnabled, value);
+        }
 
         public IScreen HostScreen { get; }
 
@@ -105,6 +121,7 @@ namespace LearnWords.ViewModel.UA_ENViewModel
 
             FutureSentence future = queue.Dequeue();
 
+            UAFuture = future.UAFuture;
             ENFutureSimple = future.ENFutureSimple;
             ENFutureContinuous = future.ENFutureContinuous;
             ENFuturePerfect = future.ENFuturePerfect;
@@ -139,6 +156,13 @@ namespace LearnWords.ViewModel.UA_ENViewModel
                 await dataService.Update(future);
 
                 comletedList.Add((future, StyleCompleted));
+
+                if (!string.IsNullOrEmpty(ENFuturePerfectContinuous))
+                    FuturePerfectContinuousCorrectEnabled = true;
+                if (!string.IsNullOrEmpty(ENFuturePerfect))
+                    FuturePerfectCorrectEnabled = true;
+                if (!string.IsNullOrEmpty(ENFutureContinuous))
+                    FutureContinuousCorrectEnabled = true;
 
                 Start.Dispose();
             }, canExecute);

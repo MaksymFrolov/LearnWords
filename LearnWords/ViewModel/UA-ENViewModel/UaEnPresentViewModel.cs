@@ -19,7 +19,8 @@ namespace LearnWords.ViewModel.UA_ENViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enPresentSimple, uaPresent, userENPresentSimple, userPresentContinuous, userPresentPerfect, userPresentPerfectContinuous, presentContinuous, presentPerfect, presentPerfectContinuous;
-        bool styleCompleted, textEnabled = true, presentEnabled = false, presentContinuousEnabled = true, presentPerfectEnabled = true, presentPerfectContinuousEnabled = true;
+        bool styleCompleted, textEnabled = true, presentEnabled = false, presentContinuousEnabled = true, presentPerfectEnabled = true, presentPerfectContinuousEnabled = true,
+                                                                        presentContinuousCorrectEnabled = false, presentPerfectCorrectEnabled = false, presentPerfectContinuousCorrectEnabled = false;
 
         public string ENPresentSimple
         {
@@ -96,6 +97,21 @@ namespace LearnWords.ViewModel.UA_ENViewModel
             get => presentPerfectContinuousEnabled;
             set => this.RaiseAndSetIfChanged(ref presentPerfectContinuousEnabled, value);
         }
+        public bool PresentContinuousCorrectEnabled
+        {
+            get => presentContinuousCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref presentContinuousCorrectEnabled, value);
+        }
+        public bool PresentPerfectCorrectEnabled
+        {
+            get => presentPerfectCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref presentPerfectCorrectEnabled, value);
+        }
+        public bool PresentPerfectContinuousCorrectEnabled
+        {
+            get => presentPerfectContinuousCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref presentPerfectContinuousCorrectEnabled, value);
+        }
 
         public IScreen HostScreen { get; }
 
@@ -105,6 +121,7 @@ namespace LearnWords.ViewModel.UA_ENViewModel
 
             PresentSentence present = queue.Dequeue();
 
+            UAPresent = present.UAPresent;
             ENPresentSimple = present.ENPresentSimple;
             ENPresentContinuous = present.ENPresentContinuous;
             ENPresentPerfect = present.ENPresentPerfect;
@@ -139,6 +156,13 @@ namespace LearnWords.ViewModel.UA_ENViewModel
                 await dataService.Update(present);
 
                 comletedList.Add((present, StyleCompleted));
+
+                if (!string.IsNullOrEmpty(ENPresentPerfectContinuous))
+                    PresentPerfectContinuousCorrectEnabled = true;
+                if (!string.IsNullOrEmpty(ENPresentPerfect))
+                    PresentPerfectCorrectEnabled = true;
+                if (!string.IsNullOrEmpty(ENPresentContinuous))
+                    PresentContinuousCorrectEnabled = true;
 
                 Start.Dispose();
             }, canExecute);

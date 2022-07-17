@@ -26,6 +26,10 @@ namespace LearnWords.View.UA_ENView
                     .DisposeWith(disposable);
                 this.Bind(ViewModel, x => x.WordEnabled, x => x.ENWordLabel.Visibility)
                     .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.SecondEnabledLabel, x => x.ENSecondCorrectLabel.Visibility)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.ThirdEnabledLabel, x => x.ENThirdCorrectLabel.Visibility)
+                    .DisposeWith(disposable);
                 this.Bind(ViewModel, x => x.SecondEnabled, x => x.SecondFormTextBox.Visibility)
                     .DisposeWith(disposable);
                 this.Bind(ViewModel, x => x.ThirdEnabled, x => x.ThirdFormTextBox.Visibility)

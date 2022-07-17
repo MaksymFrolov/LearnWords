@@ -29,20 +29,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Future Simple:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="Future Continuous:" Grid.Column="0" Grid.Row="3" Visibility="{Binding ElementName=ENFutureContinuousTextBox,Path=Visibility}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="Future Perfect:" Grid.Column="0" Grid.Row="5"  Visibility="{Binding ElementName=ENFuturePerfectTextBox,Path=Visibility}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="Future Perfect Continuous:" Grid.Column="0" Grid.Row="7"  Visibility="{Binding ElementName=ENFuturePerfectContinuousTextBox,Path=Visibility}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Content="Ukrainian Sentence:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Content="Future Simple:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Future Continuous:" Grid.Column="0" Grid.Row="3" Visibility="{Binding ElementName=ENFutureContinuousTextBox,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Future Perfect:" Grid.Column="0" Grid.Row="5"  Visibility="{Binding ElementName=ENFuturePerfectTextBox,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Future Perfect Continuous:" Grid.Column="0" Grid.Row="7"  Visibility="{Binding ElementName=ENFuturePerfectContinuousTextBox,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Ukrainian Sentence:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="2" Visibility="{Binding ElementName=ENFutureSimpleLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="4" Visibility="{Binding ElementName=ENFutureContinuousLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="6" Visibility="{Binding ElementName=ENFutureContinuousLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="6" Visibility="{Binding ElementName=ENFuturePerfectLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label Content="Correct Sentence:" Grid.Column="0" Grid.Row="8" Visibility="{Binding ElementName=ENFuturePerfectContinuousLabel,Path=Visibility}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
         <Label x:Name="UAFutureLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label x:Name="ENFutureSimpleLabel" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label x:Name="ENFutureContinuousLabel" Visibility="{Binding ElementName=ENFutureSimpleLabel,Path=Visibility}" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label x:Name="ENFuturePerfectLabel" Visibility="{Binding ElementName=ENFutureSimpleLabel,Path=Visibility}" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label x:Name="ENFuturePerfectContinuousLabel" Visibility="{Binding ElementName=ENFutureSimpleLabel,Path=Visibility}" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ENFutureContinuousLabel" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ENFuturePerfectLabel" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="ENFuturePerfectContinuousLabel" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <TextBox x:Name="ENFutureSimpleTextBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Width="500" Height="28"/>
         <TextBox x:Name="ENFutureContinuousTextBox" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Width="500" Height="28"/>

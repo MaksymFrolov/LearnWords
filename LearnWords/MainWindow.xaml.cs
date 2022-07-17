@@ -40,7 +40,9 @@ namespace LearnWords
                     .DisposeWith(disposables);
                 this.BindCommand(ViewModel, x => x.UAENWord , x => x.menuWordUAEN)
                     .DisposeWith(disposables);
-                
+                this.BindCommand(ViewModel, x => x.GoMain, x => x.menuGoMain)
+                    .DisposeWith(disposables);
+
                 this.BindCommand(ViewModel, x => x.OpenRedactionSentence, x => x.menuSentenceRedaction)
                     .DisposeWith(disposables);
                 this.BindCommand(ViewModel, x => x.ENUASentence, x => x.menuSentenceENUA)

@@ -19,7 +19,7 @@ namespace LearnWords.ViewModel.UA_ENViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enWord, uaWord, userENWord, userThirdForm, userSecondForm, secondForm, thirdForm;
-        bool styleCompleted, textEnabled = true, wordEnabled = false, secondEnabled = true, thirdEnabled = true;
+        bool styleCompleted, textEnabled = true, wordEnabled = false, secondEnabled = true, thirdEnabled = true, secondEnabledLabel = false, thirdEnabledLabel = false;
 
         public string ENWord
         {
@@ -81,6 +81,16 @@ namespace LearnWords.ViewModel.UA_ENViewModel
             get => thirdEnabled;
             set => this.RaiseAndSetIfChanged(ref thirdEnabled, value);
         }
+        public bool SecondEnabledLabel
+        {
+            get => secondEnabledLabel;
+            set => this.RaiseAndSetIfChanged(ref secondEnabledLabel, value);
+        }
+        public bool ThirdEnabledLabel
+        {
+            get => thirdEnabledLabel;
+            set => this.RaiseAndSetIfChanged(ref thirdEnabledLabel, value);
+        }
 
         public IScreen HostScreen { get; }
 
@@ -119,6 +129,11 @@ namespace LearnWords.ViewModel.UA_ENViewModel
                 await dataService.Update(word);
 
                 comletedList.Add((word, StyleCompleted));
+
+                if (!string.IsNullOrEmpty(SecondForm))
+                    SecondEnabledLabel = true;
+                if (!string.IsNullOrEmpty(ThirdForm))
+                    ThirdEnabledLabel = true;
 
                 Start.Dispose();
             }, canExecute);

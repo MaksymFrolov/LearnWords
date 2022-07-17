@@ -20,7 +20,8 @@ namespace LearnWords.ViewModel.UA_ENViewModel
         public ReactiveCommand<Unit, IRoutableViewModel> Next { get; }
 
         string enPastSimple, uaPast, userENPastSimple, userPastContinuous, userPastPerfect, userPastPerfectContinuous, pastContinuous, pastPerfect, pastPerfectContinuous;
-        bool styleCompleted, textEnabled = true, pastEnabled = false, pastContinuousEnabled = true, pastPerfectEnabled = true, pastPerfectContinuousEnabled = true;
+        bool styleCompleted, textEnabled = true, pastEnabled = false, pastContinuousEnabled = true, pastPerfectEnabled = true, pastPerfectContinuousEnabled = true,
+                                                                        pastContinuousCorrectEnabled = false, pastPerfectCorrectEnabled = false, pastPerfectContinuousCorrectEnabled = false;
 
         public string ENPastSimple
         {
@@ -97,6 +98,21 @@ namespace LearnWords.ViewModel.UA_ENViewModel
             get => pastPerfectContinuousEnabled;
             set => this.RaiseAndSetIfChanged(ref pastPerfectContinuousEnabled, value);
         }
+        public bool PastContinuousCorrectEnabled
+        {
+            get => pastContinuousCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref pastContinuousCorrectEnabled, value);
+        }
+        public bool PastPerfectCorrectEnabled
+        {
+            get => pastPerfectCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref pastPerfectCorrectEnabled, value);
+        }
+        public bool PastPerfectContinuousCorrectEnabled
+        {
+            get => pastPerfectContinuousCorrectEnabled;
+            set => this.RaiseAndSetIfChanged(ref pastPerfectContinuousCorrectEnabled, value);
+        }
 
         public IScreen HostScreen { get; }
 
@@ -106,6 +122,7 @@ namespace LearnWords.ViewModel.UA_ENViewModel
 
             PastSentence past = queue.Dequeue();
 
+            UAPast = past.UAPast;
             ENPastSimple = past.ENPastSimple;
             ENPastContinuous = past.ENPastContinuous;
             ENPastPerfect = past.ENPastPerfect;
@@ -140,6 +157,13 @@ namespace LearnWords.ViewModel.UA_ENViewModel
                 await dataService.Update(past);
 
                 comletedList.Add((past, StyleCompleted));
+
+                if (!string.IsNullOrEmpty(ENPastPerfectContinuous))
+                    PastPerfectContinuousCorrectEnabled = true;
+                if (!string.IsNullOrEmpty(ENPastPerfect))
+                    PastPerfectCorrectEnabled = true;
+                if (!string.IsNullOrEmpty(ENPastContinuous))
+                    PastContinuousCorrectEnabled = true;
 
                 Start.Dispose();
             }, canExecute);

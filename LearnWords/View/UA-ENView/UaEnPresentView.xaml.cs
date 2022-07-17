@@ -26,7 +26,13 @@ namespace LearnWords.View.UA_ENView
                     .DisposeWith(disposable);
                 this.Bind(ViewModel, x => x.UAPresent, x => x.UAPresentLabel.Content)
                     .DisposeWith(disposable);
-                this.Bind(ViewModel, x => x.PresentEnabled, x => x.ENPresentSimpleTextBox.Visibility)
+                this.Bind(ViewModel, x => x.PresentEnabled, x => x.ENPresentSimpleLabel.Visibility)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.PresentContinuousCorrectEnabled, x => x.ENPresentContinuousLabel.Visibility)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.PresentPerfectContinuousCorrectEnabled, x => x.ENPresentPerfectContinuousLabel.Visibility)
+                    .DisposeWith(disposable);
+                this.Bind(ViewModel, x => x.PresentPerfectCorrectEnabled, x => x.ENPresentPerfectLabel.Visibility)
                     .DisposeWith(disposable);
                 this.Bind(ViewModel, x => x.PresentContinuousEnabled, x => x.ENPresentContinuousTextBox.Visibility)
                     .DisposeWith(disposable);

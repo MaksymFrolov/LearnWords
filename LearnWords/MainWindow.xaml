@@ -18,6 +18,7 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0" Background="#FF2C343B" FontSize="14">
+            <MenuItem x:Name="menuGoMain" Header="Main"/>
             <MenuItem Header="Word">
                 <MenuItem x:Name="menuWordRedaction" Header="Redaction Word"/>
                 <Separator/>

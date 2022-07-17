@@ -26,6 +26,8 @@ namespace LearnWords.ViewModel
     {
         public RoutingState Router { get; }
 
+        public ReactiveCommand<Unit, IRoutableViewModel> GoMain { get; }
+
         public ReactiveCommand<Unit, IRoutableViewModel> OpenRedactionWord { get; }
         public ReactiveCommand<Unit, IRoutableViewModel> ENUAWord { get; }
         public ReactiveCommand<Unit, IRoutableViewModel> UAENWord { get; }
@@ -80,27 +82,28 @@ namespace LearnWords.ViewModel
             Locator.CurrentMutable.Register(() => new EnUaSentenceView(), typeof(IViewFor<EnUaSentenceViewModel>));
             Locator.CurrentMutable.Register(() => new RedactionSentenceView(), typeof(IViewFor<RedactionSentenceViewModel>));
             Locator.CurrentMutable.Register(() => new ResultSentenceView(), typeof(IViewFor<ResultSentenceViewModel>));
-            Locator.CurrentMutable.Register(() => new EnUaSentenceView(), typeof(IViewFor<EnUaSentenceViewModel>));
+            Locator.CurrentMutable.Register(() => new UaEnSentenceView(), typeof(IViewFor<UaEnSentenceViewModel>));
 
             Locator.CurrentMutable.Register(() => new CreatePastView(), typeof(IViewFor<CreatePastViewModel>));
             Locator.CurrentMutable.Register(() => new EnUaPastView(), typeof(IViewFor<EnUaPastViewModel>));
             Locator.CurrentMutable.Register(() => new RedactionPastView(), typeof(IViewFor<RedactionPastViewModel>));
             Locator.CurrentMutable.Register(() => new ResultPastView(), typeof(IViewFor<ResultPastViewModel>));
-            Locator.CurrentMutable.Register(() => new EnUaPastView(), typeof(IViewFor<EnUaPastViewModel>));
+            Locator.CurrentMutable.Register(() => new UaEnPastView(), typeof(IViewFor<UaEnPastViewModel>));
 
             Locator.CurrentMutable.Register(() => new CreatePresentView(), typeof(IViewFor<CreatePresentViewModel>));
             Locator.CurrentMutable.Register(() => new EnUaPresentView(), typeof(IViewFor<EnUaPresentViewModel>));
             Locator.CurrentMutable.Register(() => new RedactionPresentView(), typeof(IViewFor<RedactionPresentViewModel>));
             Locator.CurrentMutable.Register(() => new ResultPresentView(), typeof(IViewFor<ResultPresentViewModel>));
-            Locator.CurrentMutable.Register(() => new EnUaPresentView(), typeof(IViewFor<EnUaPresentViewModel>));
+            Locator.CurrentMutable.Register(() => new UaEnPresentView(), typeof(IViewFor<UaEnPresentViewModel>));
 
             Locator.CurrentMutable.Register(() => new CreateFutureView(), typeof(IViewFor<CreateFutureViewModel>));
             Locator.CurrentMutable.Register(() => new EnUaFutureView(), typeof(IViewFor<EnUaFutureViewModel>));
             Locator.CurrentMutable.Register(() => new RedactionFutureView(), typeof(IViewFor<RedactionFutureViewModel>));
             Locator.CurrentMutable.Register(() => new ResultFutureView(), typeof(IViewFor<ResultFutureViewModel>));
-            Locator.CurrentMutable.Register(() => new EnUaFutureView(), typeof(IViewFor<EnUaFutureViewModel>));
+            Locator.CurrentMutable.Register(() => new UaEnFutureView(), typeof(IViewFor<UaEnFutureViewModel>));
 
-            Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService, dataSentenceService, dataFutureService, dataPastService, dataPresentService));
+            GoMain = ReactiveCommand.CreateFromTask(async () => await Router.Navigate.Execute(new DefaultViewModel(Router, dataWordService, dataSentenceService, dataFutureService, dataPastService, dataPresentService)));
+            GoMain.Execute();
 
             OpenRedactionWord = ReactiveCommand.CreateFromTask(async () => await Router.NavigateAndReset.Execute(new RedactionWordViewModel(Router, dataWordService)));
             ENUAWord = ReactiveCommand.CreateFromTask(async () =>
